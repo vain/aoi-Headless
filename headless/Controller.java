@@ -11,6 +11,7 @@ import artofillusion.material.*;
 import artofillusion.texture.*;
 import artofillusion.object.*;
 import artofillusion.ui.*;
+import artofillusion.keystroke.*;
 
 import java.awt.GraphicsEnvironment;
 
@@ -23,22 +24,8 @@ public class Controller
 		System.out.println("DISPLAY = " + env.get("DISPLAY"));
 		System.out.println("Am I headless? " + GraphicsEnvironment.isHeadless());
 
-		// -- Load the scene
-		Scene sc = null;
-		File f = new File(args[0]);
-		System.out.println("Trying to load \"" + f + "\" ...");
-		try
-		{
-			sc = new Scene(f, true);
-			System.out.println("Scene loaded.");
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.exit(1);
-		}
-
-		// -- Load plugins
+		// -- Do the whole initialization stuff
+		Translate.setLocale(Locale.getDefault());
 		PluginRegistry.addCategory(Plugin.class);
 		PluginRegistry.addCategory(Renderer.class);
 		PluginRegistry.addCategory(Translator.class);
@@ -76,7 +63,6 @@ public class Controller
 		PluginRegistry.scanPlugins();
 		ThemeManager.initThemes();
 
-
 		// ******************************************************************
 		// This is the point where I got stuck. The ObjectInfo.getBounds()
 		// requires this variable to be != null, but ArtOfIllusion.preferences
@@ -87,6 +73,49 @@ public class Controller
 		// Let's assume this property has public access:
 		ArtOfIllusion.preferences = new ApplicationPreferences();
 		// ******************************************************************
+
+		KeystrokeManager.loadRecords();
+
+		List plugins = PluginRegistry.getPlugins(Plugin.class);
+		for (int i = 0; i < plugins.size(); i++)
+		{
+			try
+			{
+				((Plugin) plugins.get(i)).processMessage(Plugin.APPLICATION_STARTING, new Object [0]);
+			}
+			catch (Throwable tx)
+			{
+				tx.printStackTrace();
+				String name = plugins.get(i).getClass().getName();
+				name = name.substring(name.lastIndexOf('.')+1);
+				System.err.println(Translate.text("pluginInitError", name));
+
+				if (tx instanceof java.awt.HeadlessException)
+				{
+					System.err.println("--- HeadlessException, ignoring.");
+				}
+				else
+				{
+					System.exit(1);
+				}
+			}
+		}
+
+
+		// -- Load the scene
+		Scene sc = null;
+		File f = new File(args[0]);
+		System.out.println("Trying to load \"" + f + "\" ...");
+		try
+		{
+			sc = new Scene(f, true);
+			System.out.println("Scene loaded.");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 
 		// -- Find raytracer

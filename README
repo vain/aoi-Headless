@@ -9,5 +9,5 @@ Sorry, no ant buildfile yet. How to compile / run:
 
 	$ ./run.sh
 
- - No image will be rendered or saved. See lines ~78 in
+ - No image will be rendered or saved. See lines ~70 in
    headless/Controller.java.

@@ -1,0 +1,13 @@
+This is an attempt at creating a CLI for Art of Illusion.
+
+Sorry, no ant buildfile yet. How to compile / run:
+ - Create a symbolic link or copy of ArtOfIllusion.jar in the same
+   directory as run.sh.
+ - Create /tmp/test.aoi or change the path in run.sh.
+ - The test scene's main camera needs to be called "Camera 1".
+ - Compile and run:
+
+	$ ./run.sh
+
+ - No image will be rendered or saved. See lines ~78 in
+   headless/Controller.java.

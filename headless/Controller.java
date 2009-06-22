@@ -10,6 +10,7 @@ import artofillusion.procedural.*;
 import artofillusion.material.*;
 import artofillusion.texture.*;
 import artofillusion.object.*;
+import artofillusion.ui.*;
 
 import java.awt.GraphicsEnvironment;
 
@@ -70,9 +71,10 @@ public class Controller
 		PluginRegistry.registerPlugin(new OutlineFilter());
 		//PluginRegistry.registerPlugin(new NoiseReductionFilter());
 		//PluginRegistry.registerPlugin(new DepthOfFieldFilter());
-		//PluginRegistry.registerResource("TranslateBundle", "artofillusion", ArtOfIllusion.class.getClassLoader(), "artofillusion", null);
-		//PluginRegistry.registerResource("UITheme", "default", ArtOfIllusion.class.getClassLoader(), "artofillusion/Icons/defaultTheme.xml", null);
+		PluginRegistry.registerResource("TranslateBundle", "artofillusion", ArtOfIllusion.class.getClassLoader(), "artofillusion", null);
+		PluginRegistry.registerResource("UITheme", "default", ArtOfIllusion.class.getClassLoader(), "artofillusion/Icons/defaultTheme.xml", null);
 		PluginRegistry.scanPlugins();
+		ThemeManager.initThemes();
 
 
 		// ******************************************************************
@@ -81,7 +83,9 @@ public class Controller
 		// has private access. Hence, it can't be set from the outside unless
 		// ArtOfIllusion.main() is called -- which, in turn, would fire up a
 		// GUI.
-		//ArtOfIllusion.preferences = new ApplicationPreferences();		
+
+		// Let's assume this property has public access:
+		ArtOfIllusion.preferences = new ApplicationPreferences();
 		// ******************************************************************
 
 
@@ -105,7 +109,7 @@ public class Controller
 		SceneCamera mySceneCamera  = (SceneCamera)(mySceneCameraOI.getObject());
 		Camera myCamera = mySceneCamera.createCamera(640, 480, mySceneCameraOI.getCoords());
 
-		HeadlessListener myListener = new HeadlessListener();
+		HeadlessListener myListener = new HeadlessListener(new File(args[1]));
 
 		// -- Render
 		ray.renderScene(sc, myCamera, myListener, mySceneCamera);

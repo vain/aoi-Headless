@@ -1,4 +1,5 @@
-This is an attempt at creating a CLI for Art of Illusion.
+This is an attempt at creating a CLI for Art of Illusion. The main
+target is to allow real headless rendering.
 
 Sorry, no ant buildfile yet. How to compile / run:
  - Create a symbolic link or copy of ArtOfIllusion.jar in the same
@@ -9,5 +10,8 @@ Sorry, no ant buildfile yet. How to compile / run:
 
 	$ ./run.sh
 
- - No image will be rendered or saved. See lines ~70 in
-   headless/Controller.java.
+ - If you use the original ArtOfIllusion.jar, it won't even compile. You
+   have to apply the ArtOfIllusion.patch to your ArtOfIllusion.java so
+   that my program can order AoI to load its properties.
+ - That patch is pretty simple. :) See headless/Controller.java why it
+   is needed.

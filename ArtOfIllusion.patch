@@ -1,0 +1,13 @@
+Index: ArtOfIllusion/src/artofillusion/ArtOfIllusion.java
+===================================================================
+--- ArtOfIllusion/src/artofillusion/ArtOfIllusion.java	(revision 235)
++++ ArtOfIllusion/src/artofillusion/ArtOfIllusion.java	(working copy)
+@@ -46,7 +46,7 @@
+   public static Font defaultFont;
+ //  private static String currentDirectory;
+   public static int standardDialogInsets = 0;
+-  private static ApplicationPreferences preferences;
++  public static ApplicationPreferences preferences;
+   private static ObjectInfo clipboardObject[];
+   private static Texture clipboardTexture[];
+   private static Material clipboardMaterial[];
